@@ -25,10 +25,16 @@
         in
         {
           inherit (pkgs) iosevka;
-          voidevka = pkgs.iosevka.overrideAttrs rec {
+          voidevka = (pkgs.iosevka.override {
             privateBuildPlan = builtins.readFile ./plans.toml;
             set = "VoidevkaMono";
-          };
+          }).overrideAttrs (old: {
+            postInstall = (old.postInstall or "") + ''
+              for f in $out/share/fonts/truetype/IosevkaVoidevkaMono-*; do
+                mv "$f" "$(dirname $f)/VoidevkaMono-$(basename $f | sed 's/IosevkaVoidevkaMono-//')"
+              done
+            '';
+          });
 
         };
     }
