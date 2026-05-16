@@ -27,7 +27,7 @@
           inherit (pkgs) iosevka;
           voidevka = pkgs.iosevka.overrideAttrs rec {
             privateBuildPlan = builtins.readFile ./plans.toml;
-            set = "voidevka";
+            set = "VoidevkaMono";
           };
 
         };
